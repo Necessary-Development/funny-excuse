@@ -1,3 +1,23 @@
 h1 {
   color: red;
 }
+
+.statement {
+  border: solid 2px black;
+}
+
+.loading {
+  animation: color-change 1s infinite;
+}
+
+@keyframes color-change {
+  0% {
+    color: red;
+  }
+  50% {
+    color: yellow;
+  }
+  100% {
+    color: red;
+  }
+}

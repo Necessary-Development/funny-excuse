@@ -1,27 +1,35 @@
 import os
 
 import openai
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify, redirect
+from flask_cors import CORS, cross_origin
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-@app.route("/", methods=("GET", "POST"))
+@app.route("/", methods=("GET","POST"))
+@cross_origin()
 def index():
     # user_suggestion = request.form["excuse"]
     # result = request.args.get("result")
-    openai_response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=generate_prompt(
-            "seductive quality", "rusty watering can", "build the Addlestone coal mine"),
-        temperature=0.6,
-        max_tokens=400
-    )
-    return jsonify(openai_response)
+    if request.method == 'POST':
+        openai_response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=generate_prompt(
+                "seductive quality", "rusty watering can", "build the Addlestone coal mine"),
+            temperature=0.6,
+            max_tokens=400
+        )
+        statement_text = openai_response.choices[0].text;
+        return jsonify({"statementText": statement_text})
+    else:
+        return redirect("https://rishiGPT.com")
 
 
 """ 
