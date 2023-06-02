@@ -1,7 +1,7 @@
 import os
 
 import openai
-from flask import Flask, jsonify, request, url_for
+from flask import Flask, jsonify
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,34 +12,31 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 @app.route("/", methods=("GET", "POST"))
 def index():
-    """  
-    if request.method == "POST":
-        animal = request.form["animal"]
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=generate_prompt(animal),
-            temperature=0.6,
-        )
-        return redirect(url_for("index", result=response.choices[0].text))
-    """
-    openai_response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=generate_prompt("fish"),
-            temperature=0.6,
-        )
+    # user_suggestion = request.form["excuse"]
     # result = request.args.get("result")
-    result = {"hello": "world"}
+    openai_response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=generate_prompt(
+            "seductive quality", "rusty watering can", "build the Addlestone coal mine"),
+        temperature=0.6,
+        max_tokens=400
+    )
     return jsonify(openai_response)
 
 
-def generate_prompt(animal):
-    return """Suggest three names for an animal that is a superhero.
+""" 
+Example of grammar used below:
+    noun_prepostion: "threat from"
+    reason: "flying cheese balls"
+    decision: "build the Addlestone coal mine"
 
-Animal: Cat
-Names: Captain Sharpclaw, Agent Fluffball, The Incredible Feline
-Animal: Dog
-Names: Ruff the Protector, Wonder Canine, Sir Barks-a-Lot
-Animal: {}
-Names:""".format(
-        animal.capitalize()
+Idea: 404 - an error has occurred. Rishi's voice saying this would be funny.
+ """
+
+
+def generate_prompt(noun_preposition, reason, decision):
+    return """
+    Please produce a statement from Prime Minister Rishi Sunak for why the {} {} means that he has decided to {}.
+    """.format(
+        noun_preposition, reason, decision,
     )
