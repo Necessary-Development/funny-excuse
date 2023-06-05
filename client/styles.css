@@ -6,6 +6,10 @@ h1 {
   border: solid 2px black;
 }
 
+.typewriter {
+  font-family: courier;
+}
+
 .loading {
   animation: color-change 1s infinite;
 }
