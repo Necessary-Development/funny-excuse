@@ -16,11 +16,11 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 @app.route("/", methods=("GET","POST"))
 @cross_origin()
 def index():
-    valence_clause = request.form["valenceClause"]
-    adjective = request.form["adjective"]
-    plural_noun = request.form["pluralNoun"]
-    decision = "give approval to the Addlestone coal mine";
     if request.method == 'POST':
+        valence_clause = request.form["valenceClause"]
+        adjective = request.form["adjective"]
+        plural_noun = request.form["pluralNoun"]
+        decision = "give approval to the Addlestone coal mine"
         openai_response = openai.Completion.create(
             model="text-davinci-003",
             prompt=generate_prompt(
@@ -31,7 +31,7 @@ def index():
         statement_text = openai_response.choices[0].text;
         return jsonify({"statementText": statement_text})
     else:
-        return redirect("https://rishiGPT.com")
+        return redirect("https://some-really-nice-url-we-will-have-for-the-project.com")
 
 
 """ 
