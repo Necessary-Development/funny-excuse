@@ -50,3 +50,6 @@ def generate_prompt(valence_clause, adjective, plural_noun, decision):
     """.format(
         valence_clause, adjective, plural_noun, decision,
     )
+
+if __name__ == "__main__":
+  app.run(host="0.0.0.0", debug=True)
