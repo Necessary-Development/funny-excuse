@@ -16,13 +16,15 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 @app.route("/", methods=("GET","POST"))
 @cross_origin()
 def index():
-    # user_suggestion = request.form["excuse"]
-    # result = request.args.get("result")
+    valence_clause = request.form["valenceClause"]
+    adjective = request.form["adjective"]
+    plural_noun = request.form["pluralNoun"]
+    decision = "give approval to the Addlestone coal mine";
     if request.method == 'POST':
         openai_response = openai.Completion.create(
             model="text-davinci-003",
             prompt=generate_prompt(
-                "seductive quality", "rusty watering can", "build the Addlestone coal mine"),
+                valence_clause, adjective, plural_noun, decision),
             temperature=0.6,
             max_tokens=400
         )
@@ -42,9 +44,9 @@ Idea: 404 - an error has occurred. Rishi's voice saying this would be funny.
  """
 
 
-def generate_prompt(noun_preposition, reason, decision):
+def generate_prompt(valence_clause, adjective, plural_noun, decision):
     return """
-    Please produce a statement from Prime Minister Rishi Sunak for why the {} {} means that he has decided to {}.
+    Please produce a statement from Prime Minister Rishi Sunak for why the {} {} {} means that he has needed to {}.
     """.format(
-        noun_preposition, reason, decision,
+        valence_clause, adjective, plural_noun, decision,
     )
